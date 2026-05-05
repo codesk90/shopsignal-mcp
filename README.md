@@ -29,9 +29,10 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 {
   "mcpServers": {
     "shopsignal": {
-      "url": "https://mcp.apify.com?actors=kodek/shopsignal-mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_APIFY_TOKEN"
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--actors", "kodek/shopsignal-mcp"],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
       }
     }
   }
@@ -42,7 +43,13 @@ Restart Claude Desktop. Ask: *"Use ShopSignal to compare prices at glossier.com 
 
 ### Cursor
 
-Settings → Tools and MCP → New MCP server → paste the URL above.
+Settings → Tools and MCP → New MCP server → paste:
+
+```
+https://mcp.apify.com?actors=kodek/shopsignal-mcp
+```
+
+Set the Authorization header to `Bearer YOUR_APIFY_TOKEN`.
 
 ### Custom agents (LangGraph, CrewAI, n8n, Mastra)
 
