@@ -1,0 +1,38 @@
+{
+  "name": "shopsignal-mcp",
+  "version": "0.1.0",
+  "description": "DTC competitor intelligence MCP server — built on Apify",
+  "type": "module",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "node dist/main.js",
+    "build": "tsc",
+    "dev": "tsx src/main.ts",
+    "smoke": "tsx scripts/smoke.ts",
+    "healthcheck": "tsx scripts/healthcheck.ts",
+    "verify-proxy": "tsx scripts/verify-proxy.ts",
+    "test": "node --test dist/**/*.test.js",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "apify": "^3.4.0",
+    "axios": "^1.7.0",
+    "cheerio": "^1.0.0",
+    "dotenv": "^17.4.2",
+    "fast-fuzzy": "^1.12.0",
+    "sharp": "^0.33.0",
+    "zod": "^3.23.0",
+    "zod-to-json-schema": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "author": "codek",
+  "license": "MIT"
+}

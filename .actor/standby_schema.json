@@ -1,0 +1,52 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ShopSignal MCP Server",
+    "description": "Streamable HTTP MCP transport for ShopSignal. Connect via mcp.apify.com or directly to this Standby endpoint.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/mcp": {
+      "post": {
+        "summary": "MCP JSON-RPC endpoint (Streamable HTTP)",
+        "description": "Standard Model Context Protocol endpoint. Accepts initialize, tools/list, tools/call, and related JSON-RPC methods.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON-RPC response or SSE stream",
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "text/event-stream": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "Server is running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "ok" },
+                    "tools": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

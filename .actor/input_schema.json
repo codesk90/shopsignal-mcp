@@ -1,0 +1,87 @@
+{
+  "title": "ShopSignal MCP Server",
+  "description": "Run this Actor in Standby mode to expose the ShopSignal MCP server. For direct (non-MCP) invocation, call any of the 4 tools by name with the matching input.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "tool": {
+      "title": "Tool name",
+      "type": "string",
+      "description": "Which ShopSignal tool to invoke when running directly (not via MCP).",
+      "enum": [
+        "get_store_snapshot",
+        "track_product_price",
+        "compare_products_across_brands",
+        "detect_drops_and_restocks"
+      ],
+      "default": "get_store_snapshot"
+    },
+    "url": {
+      "title": "Store URL",
+      "type": "string",
+      "description": "DTC store URL — used by get_store_snapshot and detect_drops_and_restocks.",
+      "editor": "textfield",
+      "example": "https://glossier.com"
+    },
+    "product_url": {
+      "title": "Product URL",
+      "type": "string",
+      "description": "Specific product URL — used by track_product_price.",
+      "editor": "textfield",
+      "example": "https://skims.com/products/fits-everybody-corset-tank"
+    },
+    "query": {
+      "title": "Search query",
+      "type": "string",
+      "description": "Natural-language query — used by compare_products_across_brands.",
+      "editor": "textfield",
+      "example": "white slip dress"
+    },
+    "brand_urls": {
+      "title": "Brand URLs",
+      "type": "array",
+      "description": "List of 2-10 DTC store URLs to compare across — used by compare_products_across_brands.",
+      "editor": "stringList",
+      "items": { "type": "string" },
+      "example": ["https://reformation.com", "https://aritzia.com", "https://cuyana.com"]
+    },
+    "max_per_brand": {
+      "title": "Max results per brand",
+      "type": "integer",
+      "description": "Maximum matches per brand for compare_products_across_brands.",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 5
+    },
+    "max_products": {
+      "title": "Max products in snapshot",
+      "type": "integer",
+      "description": "Cap on number of products returned by get_store_snapshot.",
+      "minimum": 10,
+      "maximum": 1000,
+      "default": 250
+    },
+    "include_variants": {
+      "title": "Include variants",
+      "type": "boolean",
+      "description": "Include size/color variants in snapshot (recommended for fashion).",
+      "default": true
+    },
+    "days": {
+      "title": "Days to look back",
+      "type": "integer",
+      "description": "Time window for detect_drops_and_restocks.",
+      "minimum": 1,
+      "maximum": 90,
+      "default": 7
+    },
+    "match_method": {
+      "title": "Match method",
+      "type": "string",
+      "description": "How to match products across brands — used by compare_products_across_brands.",
+      "enum": ["text", "image", "hybrid"],
+      "default": "hybrid"
+    }
+  },
+  "required": ["tool"]
+}

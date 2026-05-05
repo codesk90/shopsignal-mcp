@@ -1,0 +1,36 @@
+{
+  "pricingModel": "PAY_PER_EVENT",
+  "pricingPerEvent": {
+    "actorChargeEvents": {
+      "snapshot_call": {
+        "eventTitle": "Store snapshot",
+        "eventDescription": "One call to get_store_snapshot returning the full catalog of a DTC store with prices, variants, and stock.",
+        "eventPriceUsd": 0.05
+      },
+      "track_call": {
+        "eventTitle": "Track product price",
+        "eventDescription": "One call to track_product_price returning current price plus 30-day price history for a single product.",
+        "eventPriceUsd": 0.05
+      },
+      "compare_call": {
+        "eventTitle": "Compare across brands",
+        "eventDescription": "One call to compare_products_across_brands returning matched products across multiple DTC brands using text and image similarity. Replaces ~30 minutes of manual research.",
+        "eventPriceUsd": 0.50
+      },
+      "drops_call": {
+        "eventTitle": "Detect drops and restocks",
+        "eventDescription": "One call to detect_drops_and_restocks returning new products, restocks, price drops, and discontinued items in the last N days for a single store.",
+        "eventPriceUsd": 0.20
+      }
+    }
+  },
+  "freeTrial": {
+    "snapshot_call": 50,
+    "track_call": 50
+  },
+  "notes": [
+    "Free tier: first 50 calls of snapshot_call and track_call per Apify account, lifetime.",
+    "Apify takes 20% commission. Platform compute costs are passed through (typically $0.005-0.01 per Cheerio-based call).",
+    "Pricing reviewed monthly based on usage data."
+  ]
+}
