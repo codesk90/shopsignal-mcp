@@ -94,8 +94,31 @@ async function startStandbyServer() {
       );
       return;
     }
+    if (req.url === '/.well-known/glama.json') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ maintainers: [{ email: 'codesk90@gmail.com' }] }));
+      return;
+    }
     if (req.url === '/mcp') {
-      const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+      const acceptHeader = (req.headers['accept'] as string) ?? '';
+      const wantsSSE = acceptHeader.includes('text/event-stream');
+      // @hono/node-server reads rawHeaders (not req.headers), so mutate rawHeaders
+      // directly to inject text/event-stream for JSON-only clients (e.g. Glama health checker).
+      // Without this, the SDK returns 406. rawHeaders is a writable own property on IncomingMessage.
+      if (!wantsSSE) {
+        // Replace (or add) the Accept header with the full required value.
+        // Appending doesn't work when the original is */* (no explicit application/json).
+        const idx = req.rawHeaders.findIndex((v, i) => i % 2 === 0 && v.toLowerCase() === 'accept');
+        if (idx >= 0) {
+          req.rawHeaders[idx + 1] = 'application/json, text/event-stream';
+        } else {
+          req.rawHeaders.push('Accept', 'application/json, text/event-stream');
+        }
+      }
+      const transport = new StreamableHTTPServerTransport({
+        sessionIdGenerator: undefined,
+        enableJsonResponse: !wantsSSE,
+      });
       const server = buildMcpServer();
       server.connect(transport).then(() => transport.handleRequest(req, res)).catch((err) => {
         console.error('[mcp-transport] error:', err);
